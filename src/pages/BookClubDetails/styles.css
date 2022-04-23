@@ -1,0 +1,11 @@
+.details_container {
+  display: flex;
+}
+
+.image {
+  height: "500px";
+  width: "500px";
+}
+.fonts {
+  font-family: "Courier New", Courier, monospace;
+}

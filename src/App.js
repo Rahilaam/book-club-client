@@ -12,17 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectAppLoading } from "./store/appState/selectors";
 import { getUserWithStoredToken } from "./store/user/actions";
 import HeroBanner from "./components/HeroBanner";
-
-const Home = () => (
-  <HeroBanner>
-    <h1>Home</h1>
-  </HeroBanner>
-);
-const Other = () => (
-  <HeroBanner>
-    <h1>Other</h1>
-  </HeroBanner>
-);
+import BookClubs from "./pages/BookClubs";
+import BookClubDetails from "./pages/BookClubDetails";
 
 function App() {
   const dispatch = useDispatch();
@@ -38,8 +29,8 @@ function App() {
       <MessageBox />
       {isLoading ? <Loading /> : null}
       <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route path="/other" element={<Other />} />
+        <Route exact path="/" element={<BookClubs />} />
+        <Route path="/bookClubs/:id" element={<BookClubDetails />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
       </Routes>

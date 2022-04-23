@@ -1,0 +1,9 @@
+.my_select {
+  background: #ffffff;
+  border-radius: 3px;
+  border: #dcd6cc 1px solid;
+  color: #333333;
+  font-family: "Lato", "Helvetica Neue", "Helvetica", sans-serif;
+  resize: none;
+  margin: 5px;
+}
