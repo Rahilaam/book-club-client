@@ -23,9 +23,9 @@ export default function BookClubCard(props) {
     >
       <Card.Img variant="top" src={imageUrl} />
       <Card.Body>
-        <Card.Header as="h4">{title}</Card.Header>
+        <Card.Text as="h4" className="">{title}</Card.Text>
         <br />
-        <Card.Header as="h6">{author}</Card.Header>
+        <Card.Text as="h6" className="text-muted">By {author}</Card.Text>
         <br />
         <Card.Text style={{ display: "flex", justifyContent: "space-around" }}>
           <span>{genre.genre}</span>

@@ -10,6 +10,8 @@ import "./styles.css";
 import moment from "moment";
 import { addParticipant } from "../../store/bookclubs/actions";
 import { isDisabled } from "@testing-library/user-event/dist/utils";
+import ReactStars from "react-rating-stars-component";
+import ThreadsDisplay from "../../components/ThreadsDisplay";
 
 export default function BookClubDetails() {
   const [showMore, setShowMore] = useState(false);
@@ -20,7 +22,7 @@ export default function BookClubDetails() {
   const { id } = useParams();
   const bookClubDetails = useSelector(getBookClubDetails);
 
-  console.log(bookClubDetails);
+  // console.log(bookClubDetails);
   useEffect(() => {
     dispatch(fetchBookClubsById(id));
   }, [dispatch, id]);
@@ -31,7 +33,7 @@ export default function BookClubDetails() {
   return (
     <div className="container fluid">
       <Row>
-        <h1 className="text-center fonts display-4">{bookClubDetails.title}</h1>
+        <h1 className="text-center fonts">{bookClubDetails.title}</h1>
         {/* <p class="h1 text-center ">{bookClubDetails.title}</p> */}
         <Col>
           <img
@@ -42,59 +44,53 @@ export default function BookClubDetails() {
           ></img>
         </Col>
         <Col>
-          <p className="text-muted col">
+          <p className="text-muted col description">
             {showMore
               ? `${bookClubDetails.description.replace(/(<([^>]+)>)/gi, "")}`
               : `${bookClubDetails.description
                   .substring(0, 250)
                   .replace(/(<([^>]+)>)/gi, "")}`}
-            <button
-              style={{
-                margin: "10px",
-                backgroundColor: "white",
-                color: "black",
-                borderRadius: "15px",
-                padding: "5px",
-              }}
-              onClick={() => setShowMore(!showMore)}
-            >
-              {showMore ? "Show Less" : "..."}
-            </button>
+            <span className="span-tag" onClick={() => setShowMore(!showMore)}>
+              {showMore ? "Show Less" : "...read more"}
+            </span>
           </p>
-          {/*           
-            {bookClubDetails.description.substring(0, 300)}
-          </p> */}
+          <Row>
+            <span className="specs">{bookClubDetails.genre.genre}</span>
+            <span className="specs">{bookClubDetails.language.language}</span>
+            <span className="specs">{bookClubDetails.averageRating}</span>
+            <span className="specs">Pages:{bookClubDetails.pageCount}</span>
+            <Row>
+              <ReactStars
+                count={5}
+                value={bookClubDetails.averageRating}
+                size={20}
+                half
+                activeColor="#ffd700"
+              />
+              <span>({bookClubDetails.ratingsCount})</span>
+            </Row>
+          </Row>
           <Row>
             <Col>
-              <span>
-                <strong>genre:</strong>
-                {bookClubDetails.genre.genre}
-              </span>
+              <span>Starting from:</span>
             </Col>
             <Col>
               <span>
-                <strong>Language:</strong>
-                {bookClubDetails.language.language}
+                {moment(bookClubDetails.startDate).format("DD/MM/YYYY")}
               </span>
-            </Col>
-            <Col>
-              <strong>Rating:</strong>
-              {bookClubDetails.averageRating}
             </Col>
           </Row>
           <Row>
             <Col>
-              <strong>Starting from:</strong>
-              {moment(bookClubDetails.startDate).format("DD/MM/YYYY")}-
-              <strong>Ends On: </strong>
-              {moment(bookClubDetails.endDate).format("DD/MM/YYYY")}
+              <span>Ends On: </span>
             </Col>
+            <Col>{moment(bookClubDetails.endDate).format("DD/MM/YYYY")}</Col>
           </Row>
           <Row>
-            <p>
-              Spots left:
-              {bookClubDetails.maxPeople - bookClubDetails.participant.length}
-            </p>
+            <span className="spots">
+              {bookClubDetails.maxPeople - bookClubDetails.participant.length}{" "}
+              spots left.
+            </span>
           </Row>
           <Button
             varient="primary"
@@ -109,19 +105,9 @@ export default function BookClubDetails() {
           </Button>
         </Col>
       </Row>
-
-      {/* <
-      
-        <div>
-          
-          <div>
-            <p>
-              <span>genre:{bookClubDetails.genre.genre}</span>
-              <span>Language:{bookClubDetails.language.language}</span>
-            </p>
-          </div>
-        </div>
-      </div> */}
+      <Row>
+        <ThreadsDisplay bookClubDetails={bookClubDetails} />
+      </Row>
     </div>
   );
 }

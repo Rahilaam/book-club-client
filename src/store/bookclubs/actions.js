@@ -86,7 +86,7 @@ export const addParticipant = (bookClubid) => {
       );
       console.log(newParticipant.data);
       dispatch(participant_added(newParticipant.data));
-      dispatch(showMessageWithTimeout("success", true, "account created"));
+      dispatch(showMessageWithTimeout("success", true, "You are now a member!!!"));
     } catch (e) {
       dispatch(setMessage("danger", true, e.response.data.message));
       console.log(e.message);

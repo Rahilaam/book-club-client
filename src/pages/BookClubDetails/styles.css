@@ -7,5 +7,30 @@
   width: "500px";
 }
 .fonts {
-  font-family: "Courier New", Courier, monospace;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 50px;
+  font-size: 50px;
+}
+
+.span-tag {
+  color:cadetblue;
+  font-size: 15px;
+  padding: 5px;
+}
+.span-tag:hover {
+  cursor: pointer;
+}
+
+.description{
+  font-size: 18px;
+}
+.specs{
+  font-weight: 500;
+  padding: 3px;
+  margin-left: 3px;
+}
+
+.spots{
+  font-weight: 800px;
+  padding: 3px;
 }

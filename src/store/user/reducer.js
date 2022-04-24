@@ -1,12 +1,18 @@
-import { LOG_OUT, LOGIN_SUCCESS, TOKEN_STILL_VALID } from "./actions";
+import {
+  LOG_OUT,
+  LOGIN_SUCCESS,
+  TOKEN_STILL_VALID,
+  FETCH_PROFILE_SUCCESS,
+} from "./actions";
 
 const initialState = {
   token: localStorage.getItem("token"),
   name: null,
-  email: null
+  email: null,
+  profile: null,
 };
 
-export default function reducer (state = initialState, action)  {
+export default function reducer(state = initialState, action) {
   switch (action.type) {
     case LOGIN_SUCCESS:
       localStorage.setItem("token", action.payload.token);
@@ -19,7 +25,10 @@ export default function reducer (state = initialState, action)  {
     case TOKEN_STILL_VALID:
       return { ...state, ...action.payload };
 
+    case FETCH_PROFILE_SUCCESS:
+      return { ...state, profile: action.payload };
+
     default:
       return state;
   }
-};
+}

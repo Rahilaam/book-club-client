@@ -3,28 +3,41 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectToken } from "../../store/user/selectors";
+import { selectToken, selectUser } from "../../store/user/selectors";
 import NavbarItem from "./NavbarItem";
 import LoggedIn from "./LoggedIn";
 import LoggedOut from "./LoggedOut";
+import { Container } from "react-bootstrap";
 
 export default function Navigation() {
   const token = useSelector(selectToken);
+  const user = useSelector(selectUser);
 
   const loginLogoutControls = token ? <LoggedIn /> : <LoggedOut />;
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="dark" variant="dark" expand="lg">
       <Navbar.Brand as={NavLink} to="/">
-        bookClub
+        📚bookClub
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav style={{ width: "100%" }} fill>
-          <NavbarItem path="/" linkText="Home" />
-          {loginLogoutControls}
-        </Nav>
-      </Navbar.Collapse>
+      <Nav className="me-auto">
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav style={{ width: "100%" }} fill>
+            <NavbarItem path="/" linkText="AllClubs" />
+          </Nav>
+          {token ? <NavbarItem path="/userProfile" linkText="MyReads" /> : ""}
+          {/* {loginLogoutControls} */}
+        </Navbar.Collapse>
+      </Nav>
+      {user ? (
+        <Nav.Item style={{ padding: ".5rem 1rem", color: "teal" }}>
+          Hi,{user.name}
+        </Nav.Item>
+      ) : (
+        ""
+      )}
+      {loginLogoutControls}
     </Navbar>
   );
 }

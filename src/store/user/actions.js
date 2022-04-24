@@ -11,6 +11,7 @@ import {
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const TOKEN_STILL_VALID = "TOKEN_STILL_VALID";
 export const LOG_OUT = "LOG_OUT";
+export const FETCH_PROFILE_SUCCESS = "FETCH_PROFILE_SUCCESS";
 
 const loginSuccess = (userWithToken) => {
   return {
@@ -23,6 +24,13 @@ const tokenStillValid = (userWithoutToken) => ({
   type: TOKEN_STILL_VALID,
   payload: userWithoutToken,
 });
+
+const fetchProfile = (profile) => {
+  return {
+    type: FETCH_PROFILE_SUCCESS,
+    payload: profile,
+  };
+};
 
 export const logOut = () => ({ type: LOG_OUT });
 
@@ -105,6 +113,29 @@ export const getUserWithStoredToken = () => {
       // if we get a 4xx or 5xx response,
       // get rid of the token by logging out
       dispatch(logOut());
+      dispatch(appDoneLoading());
+    }
+  };
+};
+
+export const fetchUserProfile = () => {
+  return async (dispatch, getState) => {
+    const token = selectToken(getState());
+    dispatch(appLoading());
+    try {
+      const response = await axios.get(`${apiUrl}/user/profile`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      console.log(response.data);
+      dispatch(fetchProfile(response.data));
+      dispatch(appDoneLoading());
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.message);
+      } else {
+        console.log(error.message);
+      }
       dispatch(appDoneLoading());
     }
   };
