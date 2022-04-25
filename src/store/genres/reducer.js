@@ -1,6 +1,7 @@
-import { FETCHED_ALLGENRES } from "./actions";
+import { FETCHED_ALLGENRES, FETCHED_ALL_LANGUAGES } from "./actions";
 const initialState = {
   allGenres: null,
+  allLanguages: null,
 };
 
 export default function reducer(state = initialState, action) {
@@ -11,6 +12,13 @@ export default function reducer(state = initialState, action) {
         allGenres: action.payload.allGenres,
       };
     }
+    case FETCHED_ALL_LANGUAGES: {
+      return {
+        ...state,
+        allLanguages: action.payload.allLanguages,
+      };
+    }
+
     default:
       return state;
   }

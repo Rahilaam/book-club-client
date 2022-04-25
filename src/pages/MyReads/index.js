@@ -8,6 +8,7 @@ import Loading from "../../components/Loading";
 import "./styles.css";
 import { Card } from "react-bootstrap";
 import { Button } from "bootstrap";
+import { Link } from "react-router-dom";
 
 export default function MyReads() {
   const [showOwnClubs, setShowOwnClubs] = useState(false);
@@ -49,6 +50,7 @@ export default function MyReads() {
               <h5>You are not the admin of any club</h5>
             ) : (
               user.owner.map((club) => {
+                console.log(club);
                 return (
                   <Card className="bookclub_card card">
                     <Card.Img variant="top" src={club.imageUrl} />
@@ -58,6 +60,9 @@ export default function MyReads() {
                         {club.author}
                       </Card.Text>
                       {/* <Button variant="primary">Go somewhere</Button> */}
+                      <Link to={`/bookClubs/${club.id}`}>
+                        <span>see club</span>
+                      </Link>
                     </Card.Body>
                   </Card>
                 );
@@ -88,6 +93,9 @@ export default function MyReads() {
                       <Card.Text className="text-muted">
                         {club.author}
                       </Card.Text>
+                      <Link to={`/bookClubs/${club.id}`}>
+                        <span>see club</span>
+                      </Link>
                     </Card.Body>
                     {/* <Button variant="danger">Read More</Button> */}
                   </Card>

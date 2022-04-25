@@ -7,7 +7,8 @@ import Loading from "./components/Loading";
 import MessageBox from "./components/MessageBox";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
-import MyReads from "./pages/MyReads"
+import MyReads from "./pages/MyReads";
+import NewClub from "./pages/NewClubForm";
 
 import { useDispatch, useSelector } from "react-redux";
 import { selectAppLoading } from "./store/appState/selectors";
@@ -33,6 +34,7 @@ function App() {
         <Route exact path="/" element={<BookClubs />} />
         <Route path="/bookClubs/:id" element={<BookClubDetails />} />
         <Route path="/userProfile" element={<MyReads />}/>
+        <Route path="/newClub" element={<NewClub/>}/>
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
       </Routes>

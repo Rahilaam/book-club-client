@@ -27,10 +27,11 @@ export default function Navigation() {
             <NavbarItem path="/" linkText="AllClubs" />
           </Nav>
           {token ? <NavbarItem path="/userProfile" linkText="MyReads" /> : ""}
+          {token ? <NavbarItem path="/newClub" linkText="newClub" /> : ""}
           {/* {loginLogoutControls} */}
         </Navbar.Collapse>
       </Nav>
-      {user ? (
+      {user.name ? (
         <Nav.Item style={{ padding: ".5rem 1rem", color: "teal" }}>
           Hi,{user.name}
         </Nav.Item>

@@ -11,6 +11,7 @@ import { selectUser } from "../user/selectors";
 export const FETCH_BOOKCLUBS_SUCCESS = "FETCH_BOOKCLUBS_SUCCESS";
 export const FETCH_BOOKCLUBSBY_ID_SUCCESS = "FETCH_BOOKCLUBSBY_ID_SUCCESS";
 export const PARTICIPANT_ADDED = "PARTICIPANT_ADDED";
+export const COMMENT_ADDED_SUCCESS = "COMMENT_ADDED_SUCCESS";
 
 export const fetched_bookclubs = (bookclubs) => {
   return {
@@ -30,6 +31,14 @@ export const participant_added = (newParticipant) => {
   return {
     type: PARTICIPANT_ADDED,
     payload: { newParticipant },
+  };
+};
+
+export const comment_added = ({ comment, threadId }) => {
+  console.log("inside comment action", comment, threadId);
+  return {
+    type: COMMENT_ADDED_SUCCESS,
+    payload: { comment, threadId },
   };
 };
 export const fetchBookClubs = () => {
@@ -71,9 +80,9 @@ export const addParticipant = (bookClubid) => {
   console.log(`inside action thunk`);
   return async (dispatch, getState) => {
     const { token } = selectUser(getState());
-    console.log(token, typeof token);
-    const headers = { Authorization: `Bearer ${token}` };
-    console.log(headers);
+    // console.log(token, typeof token);
+    // const headers = { Authorization: `Bearer ${token}` };
+    // console.log(headers);
     dispatch(appLoading());
     try {
       // console.log(bookClubDetails);
@@ -84,13 +93,48 @@ export const addParticipant = (bookClubid) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log(newParticipant.data);
+      // console.log(newParticipant.data);
       dispatch(participant_added(newParticipant.data));
-      dispatch(showMessageWithTimeout("success", true, "You are now a member!!!"));
+      dispatch(
+        showMessageWithTimeout("success", true, "You are now a member!!!")
+      );
     } catch (e) {
       dispatch(setMessage("danger", true, e.response.data.message));
       console.log(e.message);
     }
     dispatch(appDoneLoading());
+  };
+};
+
+export const postComment = (comment, bookClubId, threadId) => {
+  // console.log(comment, bookClubId, threadId);
+  return async (dispatch, getState) => {
+    const { token } = selectUser(getState());
+    // dispatch(appLoading());
+    try {
+      // console.log(bookClubDetails);
+      const newComment = await axios.post(
+        `${apiUrl}/bookClubs/${bookClubId}/threads/${threadId}/comments`,
+        { comment },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      // console.log(newComment.data);
+      // console.log({comment:newComment.data, threadId })
+      dispatch(comment_added({comment:newComment.data, threadId }));
+      
+      // dispatch(
+      //   showMessageWithTimeout(
+      //     "success",
+      //     true,
+      //     "comment posted successfully!!!"
+      //   )
+      // );
+    } catch (e) {
+      console.log(e.message);
+      // dispatch(setMessage("danger", true, e.response.data.message));
+    }
+    // dispatch(appDoneLoading());
   };
 };

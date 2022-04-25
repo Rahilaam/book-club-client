@@ -5,38 +5,51 @@ import { useDispatch, useSelector } from "react-redux";
 import BookClubCard from "../../components/BookClubCard";
 import { fetchBookClubs } from "../../store/bookclubs/actions";
 import { getBookClubs } from "../../store/bookclubs/selectors";
-import { fetchAllGenres } from "../../store/genres/actions";
-import { getGenres } from "../../store/genres/selectors";
+import { fetchAllGenres, fetchAllLanguages } from "../../store/genres/actions";
+import { getGenres, getLanguages } from "../../store/genres/selectors";
 import "./styles.css";
-import { filterOnGenre } from "../../store/bookclubs/selectors";
 import HeroBanner from "../../components/HeroBanner";
 export default function BookClubs() {
   const dispatch = useDispatch();
   const bookClubs = useSelector(getBookClubs);
   const genres = useSelector(getGenres);
-  const [selectedGenre, setSelectedGenre] = useState("All");
+  const languages = useSelector(getLanguages);
+  const [selectedGenre, setSelectedGenre] = useState("AllGenre");
+  const [selectedLang, setSelectedLang] = useState("AllLanguages");
   // console.log(bookClubs);
-  // console.log(genres);
+  // console.log(languages);
 
   useEffect(() => {
     dispatch(fetchBookClubs());
     dispatch(fetchAllGenres());
+    dispatch(fetchAllLanguages());
   }, [dispatch]);
 
   const filteredClubs =
-    selectedGenre === "All"
+    selectedGenre === "AllGenre"
       ? bookClubs
       : bookClubs.filter((bookclub) => {
           // console.log(bookclub, selectedGenre);
           return bookclub.genreId === parseInt(selectedGenre);
         });
 
-  // console.log(selectedGenre);
+  const filteredClubsOnLanguage =
+    selectedLang === "AllLanguages"
+      ? filteredClubs
+      : filteredClubs.filter((bookclub) => {
+          // console.log(bookclub, selectedGenre);
+          return bookclub.languageId === parseInt(selectedLang);
+        });
+
+  // console.log(filteredClubsOnLanguage);
 
   return (
     <div>
       <HeroBanner>
-        <p>The right Book in the right hands at the right time <br/>can change the world!</p>
+        <p>
+          The right Book in the right hands at the right time <br />
+          can change the world!
+        </p>
       </HeroBanner>
       <div className="container">
         <Row>
@@ -48,8 +61,8 @@ export default function BookClubs() {
                 console.log(selectedGenre);
               }}
             >
-              <option value={"All"} className="text-muted">
-                All
+              <option value={"AllGenre"} className="text-muted">
+                genre
               </option>
               {!genres
                 ? ""
@@ -62,11 +75,32 @@ export default function BookClubs() {
                   })}
             </Form.Select>
           </Col>
-          <Col>Language</Col>
+          <Col>
+            <Form.Select
+              className="my_select"
+              onChange={(e) => {
+                setSelectedLang(e.target.value);
+                console.log(selectedLang);
+              }}
+            >
+              <option value={"AllLanguages"} className="text-muted">
+                language
+              </option>
+              {!languages
+                ? ""
+                : languages.map((language) => {
+                    return (
+                      <option key={language.id} value={language.id}>
+                        {language.language}
+                      </option>
+                    );
+                  })}
+            </Form.Select>
+          </Col>
         </Row>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
-          {filteredClubs &&
-            filteredClubs.map((bookClub) => {
+          {filteredClubsOnLanguage &&
+            filteredClubsOnLanguage.map((bookClub) => {
               return <BookClubCard key={bookClub.id} bookClub={bookClub} />;
             })}
         </div>
