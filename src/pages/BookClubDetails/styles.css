@@ -8,8 +8,11 @@
 }
 .fonts {
   font-family: Arial, Helvetica, sans-serif;
-  padding: 50px;
+  padding-top: 50px;
   font-size: 50px;
+}
+.author{
+  font-size: 30px;
 }
 
 .span-tag {

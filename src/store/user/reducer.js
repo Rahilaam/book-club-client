@@ -10,6 +10,7 @@ const initialState = {
   name: null,
   email: null,
   profile: null,
+  id:null,
 };
 
 export default function reducer(state = initialState, action) {

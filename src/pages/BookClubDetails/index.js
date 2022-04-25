@@ -12,10 +12,12 @@ import { addParticipant } from "../../store/bookclubs/actions";
 import { isDisabled } from "@testing-library/user-event/dist/utils";
 import ReactStars from "react-rating-stars-component";
 import ThreadsDisplay from "../../components/ThreadsDisplay";
+import { selectUser } from "../../store/user/selectors";
 
 export default function BookClubDetails() {
   const [showMore, setShowMore] = useState(false);
   const [joined, setJoined] = useState(false);
+  const user=useSelector(selectUser)
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,7 +36,7 @@ export default function BookClubDetails() {
     <div className="container fluid">
       <Row>
         <h1 className="text-center fonts">{bookClubDetails.title}</h1>
-        {/* <p class="h1 text-center ">{bookClubDetails.title}</p> */}
+        <p className="text-center  text-muted author">By {bookClubDetails.author}</p>
         <Col>
           <img
             style={{ height: "550px", width: "400px" }}
@@ -101,7 +103,8 @@ export default function BookClubDetails() {
             }}
             disabled={joined ? true : false}
           >
-            {joined ? "JOINED" : "JOIN NOW"}
+            {!(user.id===parseInt(bookClubDetails.ownerId))?joined ? "JOINED" : "JOIN NOW":""}
+            {}
           </Button>
         </Col>
       </Row>
