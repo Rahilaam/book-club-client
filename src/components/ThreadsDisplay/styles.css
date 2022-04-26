@@ -132,8 +132,6 @@ body {
 
 .see-thread {
   color: blue;
-  font-size: 10px;
-}
-.see-thread:hover {
+  font-size: 15px;
   cursor: pointer;
 }

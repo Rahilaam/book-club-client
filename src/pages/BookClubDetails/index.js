@@ -17,7 +17,7 @@ import { selectUser } from "../../store/user/selectors";
 export default function BookClubDetails() {
   const [showMore, setShowMore] = useState(false);
   const [joined, setJoined] = useState(false);
-  const user=useSelector(selectUser)
+  const user = useSelector(selectUser);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -29,6 +29,12 @@ export default function BookClubDetails() {
     dispatch(fetchBookClubsById(id));
   }, [dispatch, id]);
 
+  const checkKey = (key, item) => {
+    if (key in item) {
+      return true;
+    }
+    return false;
+  };
   if (!bookClubDetails) {
     return <Loading />;
   }
@@ -36,17 +42,48 @@ export default function BookClubDetails() {
     <div className="container fluid">
       <Row>
         <h1 className="text-center fonts">{bookClubDetails.title}</h1>
-        <p className="text-center  text-muted author">By {bookClubDetails.author}</p>
+        <p className="text-center  text-muted author">
+          By {bookClubDetails.author}
+        </p>
         <Col>
-          <img
+          {checkKey("imageLinks", bookClubDetails) ? (
+            <img
+              style={{ height: "550px", width: "400px" }}
+              src={bookClubDetails.imageLinks.medium}
+              alt="..."
+              className="col img-thumbnail"
+            ></img>
+          ) : (
+            <img
+              style={{ height: "550px", width: "400px" }}
+              src="https://previews.123rf.com/images/asfia/asfia1902/asfia190200080/117673149-3d-illustration-of-man-reading-book-sitting-near-pile-of-books-3d-human-person-character-and-white-p.jpg"
+              alt="..."
+              className="col img-thumbnail"
+            ></img>
+          )}
+          {/* <img
             style={{ height: "550px", width: "400px" }}
             src={bookClubDetails.imageLinks.medium}
             alt="..."
             className="col img-thumbnail"
-          ></img>
+          ></img> */}
         </Col>
         <Col>
-          <p className="text-muted col description">
+          {checkKey("description", bookClubDetails) ? (
+            <p className="text-muted col description">
+              {showMore
+                ? `${bookClubDetails.description.replace(/(<([^>]+)>)/gi, "")}`
+                : `${bookClubDetails.description
+                    .substring(0, 250)
+                    .replace(/(<([^>]+)>)/gi, "")}`}
+              <span className="span-tag" onClick={() => setShowMore(!showMore)}>
+                {showMore ? "Show Less" : "...read more"}
+              </span>
+            </p>
+          ) : (
+            ""
+          )}
+          {/* <p className="text-muted col description">
             {showMore
               ? `${bookClubDetails.description.replace(/(<([^>]+)>)/gi, "")}`
               : `${bookClubDetails.description
@@ -55,11 +92,15 @@ export default function BookClubDetails() {
             <span className="span-tag" onClick={() => setShowMore(!showMore)}>
               {showMore ? "Show Less" : "...read more"}
             </span>
-          </p>
+          </p> */}
           <Row>
             <span className="specs">{bookClubDetails.genre.genre}</span>
             <span className="specs">{bookClubDetails.language.language}</span>
-            <span className="specs">{bookClubDetails.averageRating}</span>
+            <span className="specs">
+              {checkKey("averageRating", bookClubDetails)
+                ? bookClubDetails.averageRating
+                : ""}
+            </span>
             <span className="specs">Pages:{bookClubDetails.pageCount}</span>
             <Row>
               <ReactStars
@@ -103,7 +144,11 @@ export default function BookClubDetails() {
             }}
             disabled={joined ? true : false}
           >
-            {!(user.id===parseInt(bookClubDetails.ownerId))?joined ? "JOINED" : "JOIN NOW":""}
+            {!(user.id === parseInt(bookClubDetails.ownerId))
+              ? joined
+                ? "JOINED"
+                : "JOIN NOW"
+              : ""}
             {}
           </Button>
         </Col>

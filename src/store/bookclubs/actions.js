@@ -12,6 +12,7 @@ export const FETCH_BOOKCLUBS_SUCCESS = "FETCH_BOOKCLUBS_SUCCESS";
 export const FETCH_BOOKCLUBSBY_ID_SUCCESS = "FETCH_BOOKCLUBSBY_ID_SUCCESS";
 export const PARTICIPANT_ADDED = "PARTICIPANT_ADDED";
 export const COMMENT_ADDED_SUCCESS = "COMMENT_ADDED_SUCCESS";
+export const THREAD_ADDED_SUCCESS = "THREAD_ADDED_SUCCESS";
 
 export const fetched_bookclubs = (bookclubs) => {
   return {
@@ -39,6 +40,14 @@ export const comment_added = ({ comment, threadId }) => {
   return {
     type: COMMENT_ADDED_SUCCESS,
     payload: { comment, threadId },
+  };
+};
+
+export const added_new_thread = ({ newthread }) => {
+  console.log("in action creator", newthread);
+  return {
+    type: THREAD_ADDED_SUCCESS,
+    payload: { newthread },
   };
 };
 export const fetchBookClubs = () => {
@@ -122,8 +131,8 @@ export const postComment = (comment, bookClubId, threadId) => {
       );
       // console.log(newComment.data);
       // console.log({comment:newComment.data, threadId })
-      dispatch(comment_added({comment:newComment.data, threadId }));
-      
+      dispatch(comment_added({ comment: newComment.data, threadId }));
+
       // dispatch(
       //   showMessageWithTimeout(
       //     "success",
@@ -131,6 +140,64 @@ export const postComment = (comment, bookClubId, threadId) => {
       //     "comment posted successfully!!!"
       //   )
       // );
+    } catch (e) {
+      console.log(e.message);
+      // dispatch(setMessage("danger", true, e.response.data.message));
+    }
+    // dispatch(appDoneLoading());
+  };
+};
+
+export const createBookClub = (newClub) => {
+  // console.log(newClub);
+  return async (dispatch, getState) => {
+    const { token } = selectUser(getState());
+    // dispatch(appLoading());
+    try {
+      const newBookClub = await axios.post(
+        `${apiUrl}/bookClubs`,
+        { ...newClub },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log(newBookClub);
+      dispatch(
+        showMessageWithTimeout(
+          "success",
+          true,
+          "book club created successfully!!!"
+        )
+      );
+    } catch (e) {
+      console.log(e.message);
+      // dispatch(setMessage("danger", true, e.response.data.message));
+    }
+    // dispatch(appDoneLoading());
+  };
+};
+
+export const addNewThread = (clubId, topic) => {
+  return async (dispatch, getState) => {
+    const { token } = selectUser(getState());
+    // dispatch(appLoading());
+    try {
+      const newThreadResponse = await axios.post(
+        `${apiUrl}/bookClubs/${clubId}/threads`,
+        { topic },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      // console.log(newThread);
+      dispatch(added_new_thread({ newthread: newThreadResponse.data }));
+      dispatch(
+        showMessageWithTimeout(
+          "success",
+          true,
+          "thread added successfully!!! Start discussing"
+        )
+      );
     } catch (e) {
       console.log(e.message);
       // dispatch(setMessage("danger", true, e.response.data.message));

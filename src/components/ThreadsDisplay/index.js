@@ -4,7 +4,7 @@ import { useState } from "react";
 import Loading from "../Loading";
 import "./styles.css";
 import { useDispatch } from "react-redux";
-import { postComment } from "../../store/bookclubs/actions";
+import { addNewThread, postComment } from "../../store/bookclubs/actions";
 
 export default function ThreadsDisplay(props) {
   const dispatch = useDispatch();
@@ -15,14 +15,8 @@ export default function ThreadsDisplay(props) {
   const [newComment, setNewComment] = useState("");
   const [viewComments, setViewComments] = useState({});
   const [thread, setThread] = useState(null);
+
   useEffect(() => {
-    // if (bookClubDetails) {
-    //   setViewComments(
-    //     bookClubDetails.threads.map((thread) => {
-    //       return { threadId: `${thread.id}`, view: false };
-    //     })
-    //   );
-    // }
     let view = {};
     if (bookClubDetails) {
       bookClubDetails.threads.forEach((thread) => {
@@ -31,48 +25,19 @@ export default function ThreadsDisplay(props) {
     }
     setViewComments(view);
   }, [bookClubDetails]);
-  useEffect(() => {
-    console.log(viewComments);
-  }, [viewComments]);
   const handleView = (threadId) => {
-    // console.log(typeof givenId);
-    // const viewCommentsNew = [...viewComments].map((item) => {
-    //   if (parseInt(item.threadId) === givenId) {
-    //     return { ...item, view: !item.view };
-    //   }
-    //   return item;
-    // });
-    // // console.log("new", viewCommentsNew);
-    // setViewComments(viewCommentsNew);
     setViewComments({
       ...viewComments,
-      [threadId]: !viewComments.threadId,
+      [threadId]: !viewComments[threadId],
     });
-    console.log("thread state", !viewComments.threadId);
+    // console.log("view comments", viewComments);
+    // console.log("thread state", viewComments[threadId]);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(postComment(newComment, bookClubDetails.id, thread));
   };
-  // const checkThreadView = (givenId) => {
-  //   const thread = [...viewComments].find((item) => {
-  //     return parseInt(item.threadId) === givenId;
-  //   });
-  // if(!thread){
-  //   return <Loading/>
-  // }
-  // if (thread) {
-  //   if (thread.view) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
-  // return false;
-  // };
-  // console.log("old", viewComments);
-  // console.log("check thread");
-  // console.log(newComment);
   return (
     <div style={{ margin: "75px 0" }}>
       <h3>Threads</h3>
@@ -87,8 +52,8 @@ export default function ThreadsDisplay(props) {
                     className="list-group-item d-flex justify-content-between align-items-center list-item"
                   >
                     {thread.topic}
-                    <span onClick={()=>handleView(thread.id)}>
-                      <span>
+                    <span onClick={() => handleView(thread.id)}>
+                      <span className="see-thread">
                         {" "}
                         {viewComments[thread.id]
                           ? "Close Thread"
@@ -119,7 +84,7 @@ export default function ThreadsDisplay(props) {
                                   <span className="thumbup">
                                     <i className="fa fa-thumbs-o-up"></i>
                                   </span>
-                                  <span className="text4">3</span>
+                                  <span className="text4">{comment.likes}</span>
                                 </div>
                               </div>
                             </div>
@@ -135,7 +100,7 @@ export default function ThreadsDisplay(props) {
                       <div className="comment-card p-3">
                         <h5>Add comments</h5>{" "}
                         <form onSubmit={handleSubmit}>
-                          <input
+                          <textarea
                             value={newComment}
                             id="textarea"
                             className="comment-form-control"
@@ -162,7 +127,7 @@ export default function ThreadsDisplay(props) {
               );
             })}
       </ul>
-      <li className="add-thread">
+      <div className="add-thread">
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -181,13 +146,20 @@ export default function ThreadsDisplay(props) {
               name="topic"
               value={threadTopic}
               onChange={(e) => {
-                setThreadtopic(threadTopic);
+                setThreadtopic(e.target.value);
               }}
             />
-            <button>add</button>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                dispatch(addNewThread(bookClubDetails.id, threadTopic));
+              }}
+            >
+              add
+            </button>
           </div>
         )}
-      </li>
+      </div>
     </div>
   );
 }

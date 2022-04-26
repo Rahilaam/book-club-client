@@ -1,0 +1,1 @@
+export const getSearchResult=(reduxState)=>reduxState.searchResult.searchResult
