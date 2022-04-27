@@ -27,9 +27,9 @@ export default function NewClub() {
   const { token } = useSelector(selectUser);
   const [searchTitle, setSearchTitle] = useState("");
   const [newClub, setNewClub] = useState({});
-  const [startDate, setStartDate] = useState(Date);
-  const [endDate, setEndDate] = useState(Date);
-  const [maxPeople, setMaxPeople] = useState(Date);
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [maxPeople, setMaxPeople] = useState();
 
   const searchResult = useSelector(getSearchResult);
   if (token === null) {
@@ -76,6 +76,7 @@ export default function NewClub() {
     console.log(clubData);
     // searchResult = {};
     // setSearchResult({});
+    // setSearchTitle(newClub.title)
     setSearchDataDisplay(false);
   };
   const handleCreate = (e) => {
@@ -108,7 +109,7 @@ export default function NewClub() {
   };
 
   return (
-    <div>
+    <div className="new-club-form">
       <Form as={Col} md={{ span: 8, offset: 2 }} className="mt-5">
         <h1 className="mt-5 mb-5">Create a new club!</h1>
         <Form.Group controlId="formBasicName">
@@ -188,7 +189,6 @@ export default function NewClub() {
                         >
                           read more
                         </Card.Link>
-                        <Card.Link href="#">Select</Card.Link>
                       </Card.Body>
                       <Button
                         onClick={(e) => {
@@ -204,53 +204,70 @@ export default function NewClub() {
           </div>
 
           {!searchDataDisplay ? (
-            <Form>
-              <Form.Group>
-                <Form.Label>Starting Date:</Form.Label>
-                <FormControl
-                  min={new Date()}
-                  value={startDate}
-                  onChange={(event) => setStartDate(event.target.value)}
-                  type="date"
-                  placeholder="Start date"
-                  required
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>End Date:</Form.Label>
-                <FormControl
-                  min={new Date()}
-                  value={endDate}
-                  onChange={(event) => setEndDate(event.target.value)}
-                  type="date"
-                  placeholder="End date"
-                  required
-                />
-              </Form.Group>
-              <Form.Group>
+            <div>
+              {/* {} */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  columnGap: "10px",
+                }}
+              >
+                <span className="form-text" style={{ fontWeight: "15px", marginBottom: "10px" }}>
+                  {" "}
+                  Choosen book:{" "}
+                </span>
+                <h4 style={{ marginBottom: "7px" }}>{newClub.title}</h4>
+              </div>
+              <Form>
                 <Form.Group>
-                  <Form.Label>Maximum People:</Form.Label>
+                  <Form.Label className="form-text">Starting Date:</Form.Label>
                   <FormControl
-                    value={maxPeople}
-                    onChange={(event) => setMaxPeople(event.target.value)}
-                    type="number"
-                    min={0}
-                    placeholder="Maximum people"
+                    min={new Date()}
+                    value={startDate}
+                    onChange={(event) => setStartDate(event.target.value)}
+                    type="date"
+                    placeholder="Start date"
                     required
                   />
                 </Form.Group>
-              </Form.Group>
+                <Form.Group>
+                  <Form.Label className="form-text">End Date:</Form.Label>
+                  <FormControl
+                    min={new Date()}
+                    value={endDate}
+                    onChange={(event) => setEndDate(event.target.value)}
+                    type="date"
+                    placeholder="End date"
+                    required
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Group>
+                    <Form.Label className="form-text">Maximum People:</Form.Label>
+                    <FormControl
+                      value={maxPeople}
+                      onChange={(event) => setMaxPeople(event.target.value)}
+                      type="number"
+                      min={0}
+                      placeholder="Maximum people"
+                      required
+                    />
+                  </Form.Group>
+                </Form.Group>
 
-              <Button
-                style={{ margin: "10px" }}
-                variant="outline-primary"
-                id="button-addon1"
-                onClick={handleCreate}
-              >
-                Create
-              </Button>
-              {errorMessage ? `${errorMessage}` : ""}
-            </Form>
+                <Button
+                  style={{ margin: "10px" }}
+                  variant="outline-primary"
+                  id="button-addon1"
+                  onClick={handleCreate}
+                >
+                  Create
+                </Button>
+                {errorMessage ? `${errorMessage}` : ""}
+              </Form>
+            </div>
           ) : (
             ""
           )}

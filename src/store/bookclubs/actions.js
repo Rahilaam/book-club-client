@@ -92,7 +92,7 @@ export const addParticipant = (bookClubid) => {
     // console.log(token, typeof token);
     // const headers = { Authorization: `Bearer ${token}` };
     // console.log(headers);
-    dispatch(appLoading());
+    // dispatch(appLoading());
     try {
       // console.log(bookClubDetails);
       const newParticipant = await axios.post(
@@ -111,7 +111,7 @@ export const addParticipant = (bookClubid) => {
       dispatch(setMessage("danger", true, e.response.data.message));
       console.log(e.message);
     }
-    dispatch(appDoneLoading());
+    // dispatch(appDoneLoading());
   };
 };
 

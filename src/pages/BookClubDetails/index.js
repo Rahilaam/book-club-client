@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBookClubsById } from "../../store/bookclubs/actions";
@@ -23,8 +23,27 @@ export default function BookClubDetails() {
   const navigate = useNavigate();
   const { id } = useParams();
   const bookClubDetails = useSelector(getBookClubDetails);
-
-  // console.log(bookClubDetails);
+  const isLoggedIn = user.token === null ? false : true;
+  const isParticipant = () => {
+    if (bookClubDetails) {
+      if (bookClubDetails.participant.length) {
+        if (
+          bookClubDetails.participant.find((item) => {
+            return item.id === user.id;
+          })
+        ) {
+          return true;
+        }
+      }
+      if (bookClubDetails.ownerId === user.id) {
+        return true;
+      }
+      return false;
+    }
+    return false;
+  };
+  console.log(bookClubDetails);
+  // console.log("participant", isParticipant());
   useEffect(() => {
     dispatch(fetchBookClubsById(id));
   }, [dispatch, id]);
@@ -135,22 +154,36 @@ export default function BookClubDetails() {
               spots left.
             </span>
           </Row>
-          <Button
-            varient="primary"
-            onClick={(e) => {
-              e.preventDefault();
-              dispatch(addParticipant(bookClubDetails.id));
-              setJoined(!joined);
-            }}
-            disabled={joined ? true : false}
-          >
-            {!(user.id === parseInt(bookClubDetails.ownerId))
-              ? joined
-                ? "JOINED"
-                : "JOIN NOW"
-              : ""}
-            {}
-          </Button>
+          {isLoggedIn ? (
+            isParticipant() ? (
+              <span style={{ color: "darkgrey" }}>Already joined.</span>
+            ) : (
+              <Button
+                varient="primary"
+                onClick={(e) => {
+                  e.preventDefault();
+                  dispatch(addParticipant(bookClubDetails.id));
+                  setJoined(!joined);
+                }}
+                disabled={joined ? true : false}
+              >
+                {joined ? "JOINED" : "JOIN NOW"}
+                {}
+              </Button>
+            )
+          ) : (
+            <span
+              style={{
+                paddingTop: "30px",
+                marginTop: "10px",
+                fontSize: "20px",
+                fontWeight: "5px",
+                fontFamily: "fantasy",
+              }}
+            >
+              You need to <Link to="/login">login</Link> first to join the club
+            </span>
+          )}
         </Col>
       </Row>
       <Row>
