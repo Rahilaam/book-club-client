@@ -18,14 +18,18 @@ export default function BookClubCard(props) {
   } = props.bookClub;
   return (
     <Card
-      className="text-center card"
+      className="text-center card card-custom-style"
       style={{ width: "20rem", padding: "10px", margin: "10px" }}
     >
       <Card.Img variant="top" src={imageUrl} />
       <Card.Body>
-        <Card.Text as="h4" className="">{title}</Card.Text>
+        <Card.Text as="h4" className="card-custom-title-style">
+          {title}
+        </Card.Text>
         <br />
-        <Card.Text as="h6" className="text-muted">By {author}</Card.Text>
+        <Card.Text as="h6" className="text-muted">
+          By {author}
+        </Card.Text>
         <br />
         <Card.Text style={{ display: "flex", justifyContent: "space-around" }}>
           <span>{genre.genre}</span>
