@@ -47,8 +47,7 @@ export default function BookClubs() {
     <div>
       <HeroBanner>
         <p>
-          The right Book in the right hands at the right time <br />
-          can change the world!
+          Let's read together!
         </p>
       </HeroBanner>
       <div className="container">

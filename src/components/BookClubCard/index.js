@@ -19,9 +19,9 @@ export default function BookClubCard(props) {
   return (
     <Card
       className="text-center card card-custom-style"
-      style={{ width: "20rem", padding: "10px", margin: "10px" }}
+      style={{ width: "20rem", margin: "5px" }}
     >
-      <Card.Img variant="top" src={imageUrl} />
+      <Card.Img variant="top" src={imageUrl} style={{padding:"0"}} />
       <Card.Body>
         <Card.Text as="h4" className="card-custom-title-style">
           {title}
@@ -35,9 +35,9 @@ export default function BookClubCard(props) {
           <span>{genre.genre}</span>
           <span>{language.language}</span>
         </Card.Text>
-        <Card.Text>
+        <Card.Text><strong>
           {moment(startDate).format("DD/MM/YYYY")}-
-          {moment(endDate).format("DD/MM/YYYY")}
+          {moment(endDate).format("DD/MM/YYYY")}</strong>
         </Card.Text>
         <Link to={`/bookClubs/${id}`}>
           <Button variant="danger">Read More</Button>

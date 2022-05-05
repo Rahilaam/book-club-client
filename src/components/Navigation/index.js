@@ -33,7 +33,7 @@ export default function Navigation() {
       </Nav>
       {user.name ? (
         <Nav.Item style={{ padding: ".5rem 1rem", color: "teal" }}>
-          Hi,{user.name}
+          {user.name}
         </Nav.Item>
       ) : (
         ""

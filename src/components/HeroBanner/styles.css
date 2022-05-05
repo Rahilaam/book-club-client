@@ -1,12 +1,11 @@
 .hero-banner {
   width: 100%;
-  background-color: rgb(104, 14, 8);
+  background-color: #8c3839;
   min-height: 300px;
-  padding-top: 60px;
-  padding-left: 100px;
-  text-align:justify;
-  font-size: 35px;
+  padding-top: 100px;
+  padding-left: 150px;
+  font-size: 50px;
   font-weight: 200;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family:Georgia, 'Times New Roman', Times, serif;
   color: azure;
 }

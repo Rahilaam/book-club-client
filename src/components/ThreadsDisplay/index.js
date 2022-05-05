@@ -8,7 +8,7 @@ import { addNewThread, postComment } from "../../store/bookclubs/actions";
 
 export default function ThreadsDisplay(props) {
   const dispatch = useDispatch();
-  const { bookClubDetails } = props;
+  const { bookClubDetails, isParticipant } = props;
   console.log(bookClubDetails);
   const [threadTopic, setThreadtopic] = useState("");
   const [viewThreadForm, setViewThreadForm] = useState(false);
@@ -76,11 +76,11 @@ export default function ThreadsDisplay(props) {
                               <div className="d-flex justify-content-between py-1 pt-2">
                                 <div>
                                   <span className="text2">
-                                    {comment.user.name}
+                                    <strong>~{comment.user.name}~</strong>
                                   </span>
                                 </div>
                                 <div>
-                                  <span className="text3">Likes:</span>
+                                  <span className="text3">👍:</span>
                                   <span className="thumbup">
                                     <i className="fa fa-thumbs-o-up"></i>
                                   </span>
@@ -97,26 +97,26 @@ export default function ThreadsDisplay(props) {
                     ""
                   ) : (
                     <div className="container d-flex ">
-                      <div className="comment-card p-3">
+                      <div className=" p-3">
                         <h5>Add comments</h5>{" "}
                         <form onSubmit={handleSubmit}>
                           <textarea
                             value={newComment}
-                            id="textarea"
-                            className="comment-form-control"
+                            // id="textarea"
+                            className="comment-control-form"
                             onChange={(e) => {
                               setNewComment(e.target.value);
                               setThread(thread.id);
                             }}
                           />{" "}
-                          <div className="mt-3 d-flex justify-content-between align-items-center">
+                          <div className="d-flex justify-content-between align-items-center">
                             {" "}
                             <span id="count"></span>{" "}
                             <button
-                              className="btn btn-sm btn-danger"
+                              className="btn btn-sm btn-primary"
                               type="submit"
                             >
-                              Submit
+                              Comment
                             </button>{" "}
                           </div>
                         </form>
@@ -127,6 +127,7 @@ export default function ThreadsDisplay(props) {
               );
             })}
       </ul>
+
       <div className="add-thread">
         <button
           onClick={(e) => {

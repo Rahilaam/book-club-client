@@ -142,6 +142,7 @@ export const postComment = (comment, bookClubId, threadId) => {
       // );
     } catch (e) {
       console.log(e.message);
+      dispatch(showMessageWithTimeout("danger", false, "Cannot add comment"));
       // dispatch(setMessage("danger", true, e.response.data.message));
     }
     // dispatch(appDoneLoading());

@@ -20,7 +20,6 @@ import { useNavigate } from "react-router-dom";
 import validator from "validator";
 import { createBookClub } from "../../store/bookclubs/actions";
 
-
 export default function NewClub() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
@@ -168,6 +167,7 @@ export default function NewClub() {
                         </Card.Text>
                         <Card.Text>
                           <ReactStars
+                            edit={false}
                             count={5}
                             value={item.volumeInfo.averageRating}
                             size={20}
@@ -215,7 +215,10 @@ export default function NewClub() {
                   columnGap: "10px",
                 }}
               >
-                <span className="form-text" style={{ fontWeight: "15px", marginBottom: "10px" }}>
+                <span
+                  className="form-text"
+                  style={{ fontWeight: "15px", marginBottom: "10px" }}
+                >
                   {" "}
                   Choosen book:{" "}
                 </span>
@@ -246,7 +249,9 @@ export default function NewClub() {
                 </Form.Group>
                 <Form.Group>
                   <Form.Group>
-                    <Form.Label className="form-text">Maximum People:</Form.Label>
+                    <Form.Label className="form-text">
+                      Maximum People:
+                    </Form.Label>
                     <FormControl
                       value={maxPeople}
                       onChange={(event) => setMaxPeople(event.target.value)}

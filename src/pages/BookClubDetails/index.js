@@ -123,6 +123,7 @@ export default function BookClubDetails() {
             <span className="specs">Pages:{bookClubDetails.pageCount}</span>
             <Row>
               <ReactStars
+                edit={false}
                 count={5}
                 value={bookClubDetails.averageRating}
                 size={20}
@@ -187,7 +188,10 @@ export default function BookClubDetails() {
         </Col>
       </Row>
       <Row>
-        <ThreadsDisplay bookClubDetails={bookClubDetails} />
+        <ThreadsDisplay
+          bookClubDetails={bookClubDetails}
+          isParticipant={isParticipant}
+        />
       </Row>
     </div>
   );
