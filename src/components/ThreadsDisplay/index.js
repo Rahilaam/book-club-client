@@ -37,6 +37,7 @@ export default function ThreadsDisplay(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(postComment(newComment, bookClubDetails.id, thread));
+    setNewComment("");
   };
   return (
     <div style={{ margin: "75px 0" }}>
@@ -154,6 +155,7 @@ export default function ThreadsDisplay(props) {
               onClick={(e) => {
                 e.preventDefault();
                 dispatch(addNewThread(bookClubDetails.id, threadTopic));
+                setThreadtopic("");
               }}
             >
               add

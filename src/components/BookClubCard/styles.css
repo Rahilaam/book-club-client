@@ -7,10 +7,14 @@
   /* padding: 14px 80px 18px 36px; */
   cursor: pointer;
 }
-.card-custom-style {
-  /* background: #faf2e9 !important; */
+.card-custom-style:hover {
+  background: #faf2e9 !important;
   /* font-family: "Cormorant Garamond", serif; */
   
+}
+.date-font{
+  font-family: "Cormorant Garamond", serif;
+  font-size: 30px;
 }
 .card-custom-title-style {
   color: #9c330c;

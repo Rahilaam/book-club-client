@@ -35,7 +35,7 @@ export default function BookClubCard(props) {
           <span>{genre.genre}</span>
           <span>{language.language}</span>
         </Card.Text>
-        <Card.Text><strong>
+        <Card.Text><strong className="date-font">
           {moment(startDate).format("DD/MM/YYYY")}-
           {moment(endDate).format("DD/MM/YYYY")}</strong>
         </Card.Text>
