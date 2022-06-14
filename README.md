@@ -14,6 +14,8 @@
 
 This is app for someone who is interested to read some book with a group. User can create or join a book club.
 
+> Deployed site: -[BookClub](https://classy-sunburst-2bddd3.netlify.app/)
+
 ## Tech-stack
 
 ### Backend
