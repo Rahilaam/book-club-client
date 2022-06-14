@@ -12,7 +12,6 @@ export default function BookClubCard(props) {
     genre,
     imageUrl,
     language,
-    owner,
     startDate,
     endDate,
   } = props.bookClub;
