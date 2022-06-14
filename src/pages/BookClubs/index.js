@@ -43,6 +43,8 @@ export default function BookClubs() {
 
   // console.log(filteredClubsOnLanguage);
 
+  
+
   return (
     <div>
       <HeroBanner>
